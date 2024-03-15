@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package musicplaylistapp;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
+import java.util.Deque;
 
 /**
  *
@@ -14,43 +15,65 @@ import java.util.Queue;
 
 
 public class MusicCollection {
-    private Queue<Song> likedSongs; // Queue for the liked songs
-    private ArrayList<Playlist> playlists; // List of all playlists, including genre playlists
+    private Deque<Song> likedSongs; // Queue for the liked songs
+    private List<Playlist> genrePlaylists; // List of all playlists, including genre playlists
 
     public MusicCollection() {
-        likedSongs = new LinkedList<>();
-        playlists = new ArrayList<>();
+        this.likedSongs = new ArrayDeque<>();
+        this.genrePlaylists = new ArrayList<>();
     }
 
     public void addSongToLiked(Song song) {
-        likedSongs.offer(song);
+        likedSongs.push(song); // Stack operation, adding song to the "liked" playlist
+    }
+    
+    
+    public Song removeLastLikedSong() {
+        return likedSongs.pop(); // Stack operation, removing the last liked song
     }
 
     // Method to move a song from the liked songs to a specific genre playlist
-    public void moveSongToGenrePlaylist(String genre) {
+    public void moveLastLikedToGenre(String genre) {
         if (likedSongs.isEmpty()) {
             System.out.println("Liked songs playlist is empty.");
             return;
         }
-        Song song = likedSongs.poll(); // Retrieves and removes the head of the queue
+        Song songToMove = removeLastLikedSong(); // Retrieves and removes the last liked song
 
         // Find or create the genre playlist
-        Playlist genrePlaylist = findPlaylistByName(genre);
-        if (genrePlaylist == null) {
-            genrePlaylist = new Playlist(genre);
-            playlists.add(genrePlaylist);
-        }
-        genrePlaylist.addSong(song);
+        Playlist genrePlaylist = findOrCreatePlaylist(genre);
+        genrePlaylist.addSong(songToMove);
     }
 
-    private Playlist findPlaylistByName(String name) {
-        for (Playlist playlist : playlists) {
-            if (playlist.getName().equalsIgnoreCase(name)) {
+    private Playlist findOrCreatePlaylist(String genre) {
+        for (Playlist playlist : genrePlaylists) {
+            if (playlist.getName().equalsIgnoreCase(genre)) {
                 return playlist;
             }
         }
-        return null;
+        Playlist newPlaylist = new Playlist(genre);
+        genrePlaylists.add(newPlaylist);
+        return newPlaylist;
     }
+    
+        public List<Song> searchSongsByTitle(String title) {
+        List<Song> foundSongs = new ArrayList<>();
+        //Search in the Liked playlist
+        for (Song song : likedSongs) {
+                if (song.getTitle().equalsIgnoreCase(title)) {
+                    foundSongs.add(song);
+                }
+            }
+            for (Playlist playlist : genrePlaylists){
+                for (Song song : playlist.getSongs()){
+                    if (song.getTitle().equalsIgnoreCase(title)){
+                        foundSongs.add(song);
+                    }
+                }
+            }
+            return foundSongs;
+    }
+    
 
     // Additional methods for managing playlists... Will add soon, 
     // Include in the future: 
@@ -58,4 +81,8 @@ public class MusicCollection {
     // 2. Repeat functinality for songs. repeat individual song or entire playlist?
     // 3. Implement to GUI
     
+    //1 Search function to look for songs
+
+    
+
 }
