@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package musicplaylistapp;
+import java.util.ArrayList;
+import java.util.Deque;
+import javax.swing.JTextArea;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,9 +18,33 @@ public class MusicCollectionGui extends javax.swing.JFrame {
     /**
      * Creates new form MusicCollectionGui
      */
+    private MusicCollection musicCollection = new MusicCollection();
     public MusicCollectionGui() {
         initComponents();
     }
+    
+    private void updateDisplay(List<Song> songs) {
+    displayArea.setText(""); // Assuming displayArea is a JTextArea
+    for (Song song : songs) {
+        displayArea.append(song.getTitle() + " - " + song.getGenre() + "\n");
+    }
+}
+    
+    
+    private void updateDisplay() {
+    List<Song> likedSongs = musicCollection.getLikedSongs(); // 
+    updateDisplay(likedSongs);
+}
+    private void updateDisplayAllSongs() {
+        List<Song> allSongs = musicCollection.getAllSongs(); // Retrieve all songs
+        displayArea.setText(""); // Clear the display area
+        for (Song song : allSongs) {
+            displayArea.append(song.getTitle() + " - " + song.getGenre() + "\n");
+        }
+}
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,11 +59,11 @@ public class MusicCollectionGui extends javax.swing.JFrame {
         songTitleTextField = new javax.swing.JTextField();
         addSongButton = new javax.swing.JButton();
         likeSongButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        showLikedSongsButton = new javax.swing.JButton();
         searchSongButton = new javax.swing.JButton();
         displayPanel = new javax.swing.JPanel();
         displayScrollPane = new javax.swing.JScrollPane();
-        displayArea = new javax.swing.JTextPane();
+        displayArea = new javax.swing.JTextArea();
         songCounterLabel = new javax.swing.JLabel();
         playlistManagementPanel = new javax.swing.JPanel();
         addToPopButton = new javax.swing.JButton();
@@ -57,7 +86,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             }
         });
 
-        addSongButton.setText("Add Song To List");
+        addSongButton.setText("Add Song To List/View List");
         addSongButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addSongButtonActionPerformed(evt);
@@ -71,9 +100,19 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Show liked songs");
+        showLikedSongsButton.setText("Show liked songs");
+        showLikedSongsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showLikedSongsButtonActionPerformed(evt);
+            }
+        });
 
         searchSongButton.setText("Search");
+        searchSongButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchSongButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout songManagementPanelLayout = new javax.swing.GroupLayout(songManagementPanel);
         songManagementPanel.setLayout(songManagementPanelLayout);
@@ -85,11 +124,11 @@ public class MusicCollectionGui extends javax.swing.JFrame {
                     .addGroup(songManagementPanelLayout.createSequentialGroup()
                         .addComponent(likeSongButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(showLikedSongsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(songTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(songManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(addSongButton, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(addSongButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(searchSongButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(155, Short.MAX_VALUE))
         );
@@ -103,7 +142,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(songManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(likeSongButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showLikedSongsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(searchSongButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -112,7 +151,8 @@ public class MusicCollectionGui extends javax.swing.JFrame {
 
         displayScrollPane.setBackground(new java.awt.Color(102, 102, 102));
 
-        displayArea.setEditable(false);
+        displayArea.setColumns(20);
+        displayArea.setRows(5);
         displayScrollPane.setViewportView(displayArea);
 
         songCounterLabel.setBackground(new java.awt.Color(204, 153, 0));
@@ -134,18 +174,23 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(displayPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(displayScrollPane)
+                .addComponent(displayScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(displayPanelLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(songCounterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         playlistManagementPanel.setBackground(new java.awt.Color(153, 153, 153));
 
         addToPopButton.setBackground(new java.awt.Color(51, 51, 255));
         addToPopButton.setText("Add to Pop Playlist");
+        addToPopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addToPopButtonActionPerformed(evt);
+            }
+        });
 
         removeFromPopButton.setBackground(new java.awt.Color(51, 51, 255));
         removeFromPopButton.setText("Remove from Pop Playlist");
@@ -157,15 +202,30 @@ public class MusicCollectionGui extends javax.swing.JFrame {
 
         showPopPlaylistButton.setBackground(new java.awt.Color(51, 51, 255));
         showPopPlaylistButton.setText("Show Pop Playlist");
+        showPopPlaylistButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPopPlaylistButtonActionPerformed(evt);
+            }
+        });
 
         addToRapButton.setBackground(new java.awt.Color(153, 0, 0));
         addToRapButton.setText("Add to Rap Playlist");
+        addToRapButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addToRapButtonActionPerformed(evt);
+            }
+        });
 
         removeFromRapButton.setBackground(new java.awt.Color(153, 0, 0));
         removeFromRapButton.setText("Remove from Rap Playlist");
 
         showRapPlaylistButton.setBackground(new java.awt.Color(153, 0, 0));
         showRapPlaylistButton.setText("Show Rap Playlist");
+        showRapPlaylistButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showRapPlaylistButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout playlistManagementPanelLayout = new javax.swing.GroupLayout(playlistManagementPanel);
         playlistManagementPanel.setLayout(playlistManagementPanelLayout);
@@ -176,7 +236,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
                 .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(addToRapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .addComponent(addToPopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(removeFromPopButton, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .addComponent(removeFromRapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -233,18 +293,75 @@ public class MusicCollectionGui extends javax.swing.JFrame {
     private void songTitleTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_songTitleTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_songTitleTextFieldActionPerformed
-
+    
+    private Song lastAddedSong = null;
     private void addSongButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSongButtonActionPerformed
-
+        // Method to add a song with the input title to the music colleciton.
+        
+        String title = songTitleTextField.getText().trim();
+        String genre = "Default Genre"; // Or get this from another text field
+        
+        if (!title.isEmpty()) {
+            Song newSong = new Song(title, genre);
+            lastAddedSong = newSong; // Keep track of the last added song for the "like" functionality
+            musicCollection.addSong(newSong); // Add the song to the general collection
+            songTitleTextField.setText(""); // Clear the text field after adding
+            updateDisplayAllSongs(); // Call a method to update the display with all songs
+        }
+        updateDisplayAllSongs();
     }//GEN-LAST:event_addSongButtonActionPerformed
 
     private void likeSongButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_likeSongButtonActionPerformed
         // TODO add your handling code here:
+        if (lastAddedSong != null) {
+        musicCollection.addSongToLiked(lastAddedSong); // Add the lastAddedSong to "Liked" playlist
+        updateDisplay(musicCollection.getLikedSongs()); // Refresh the display to show liked songs
+    }
     }//GEN-LAST:event_likeSongButtonActionPerformed
 
     private void removeFromPopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromPopButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_removeFromPopButtonActionPerformed
+
+    private void showLikedSongsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showLikedSongsButtonActionPerformed
+        // TODO add your handling code here:
+        List<Song> likedSongs = new ArrayList<>(musicCollection.getLikedSongs()); // Retrieve the liked songs
+        updateDisplay(likedSongs); // Update the display area with these songs
+    }//GEN-LAST:event_showLikedSongsButtonActionPerformed
+
+    private void searchSongButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchSongButtonActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_searchSongButtonActionPerformed
+
+    private void addToPopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToPopButtonActionPerformed
+        if (musicCollection.addSongToPop()) {
+            updateDisplay(musicCollection.getPopSongs()); // Refresh the display area with Pop songs
+        } else {
+            // Show a message if there are no liked songs to add
+            JOptionPane.showMessageDialog(this, "No more liked songs to add to Pop playlist", "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_addToPopButtonActionPerformed
+
+    private void addToRapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToRapButtonActionPerformed
+        // TODO add your handling code here:
+        if (musicCollection.addSongToRap()) {
+            updateDisplay(musicCollection.getRapSongs()); // Refresh the display area with Rap songs
+        } else {
+            // Show a message if there are no liked songs to add
+            JOptionPane.showMessageDialog(this, "No more liked songs to add to Rap playlist", "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_addToRapButtonActionPerformed
+
+    private void showPopPlaylistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPopPlaylistButtonActionPerformed
+        // TODO add your handling code here:
+        updateDisplay(musicCollection.getPopSongs());
+    }//GEN-LAST:event_showPopPlaylistButtonActionPerformed
+
+    private void showRapPlaylistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRapPlaylistButtonActionPerformed
+        // TODO add your handling code here
+        updateDisplay(musicCollection.getRapSongs());
+    }//GEN-LAST:event_showRapPlaylistButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,15 +402,15 @@ public class MusicCollectionGui extends javax.swing.JFrame {
     private javax.swing.JButton addSongButton;
     private javax.swing.JButton addToPopButton;
     private javax.swing.JButton addToRapButton;
-    private javax.swing.JTextPane displayArea;
+    private javax.swing.JTextArea displayArea;
     private javax.swing.JPanel displayPanel;
     private javax.swing.JScrollPane displayScrollPane;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton likeSongButton;
     private javax.swing.JPanel playlistManagementPanel;
     private javax.swing.JButton removeFromPopButton;
     private javax.swing.JButton removeFromRapButton;
     private javax.swing.JButton searchSongButton;
+    private javax.swing.JButton showLikedSongsButton;
     private javax.swing.JButton showPopPlaylistButton;
     private javax.swing.JButton showRapPlaylistButton;
     private javax.swing.JLabel songCounterLabel;

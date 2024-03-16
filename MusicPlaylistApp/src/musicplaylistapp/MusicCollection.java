@@ -15,34 +15,34 @@ import java.util.Deque;
 
 
 public class MusicCollection {
+    private List<Song> allSongs;
     private Deque<Song> likedSongs; // Queue for the liked songs
     private List<Playlist> genrePlaylists; // List of all playlists, including genre playlists
+    private List<Song> popSongs;
+    private List<Song> rapSongs;
 
     public MusicCollection() {
         this.likedSongs = new ArrayDeque<>();
         this.genrePlaylists = new ArrayList<>();
+        this.allSongs = new ArrayList<>();
+        this.popSongs = new ArrayList<>();
+        this.rapSongs = new ArrayList<>();
+    }
+
+    public List<Song> getLikedSongs() {
+        return new ArrayList<>(likedSongs); // Or appropriate logic to return liked songs
+    }
+    
+    public void addSong(Song song){
+        allSongs.add(song);
+    }
+    
+    public List<Song> getAllSongs(){
+        return allSongs;
     }
 
     public void addSongToLiked(Song song) {
-        likedSongs.push(song); // Stack operation, adding song to the "liked" playlist
-    }
-    
-    
-    public Song removeLastLikedSong() {
-        return likedSongs.pop(); // Stack operation, removing the last liked song
-    }
-
-    // Method to move a song from the liked songs to a specific genre playlist
-    public void moveLastLikedToGenre(String genre) {
-        if (likedSongs.isEmpty()) {
-            System.out.println("Liked songs playlist is empty.");
-            return;
-        }
-        Song songToMove = removeLastLikedSong(); // Retrieves and removes the last liked song
-
-        // Find or create the genre playlist
-        Playlist genrePlaylist = findOrCreatePlaylist(genre);
-        genrePlaylist.addSong(songToMove);
+        likedSongs.add(song); // Stack operation, adding song to the "liked" playlist
     }
 
     private Playlist findOrCreatePlaylist(String genre) {
@@ -56,27 +56,34 @@ public class MusicCollection {
         return newPlaylist;
     }
     
-        public List<Song> searchSongsByTitle(String title) {
-        List<Song> foundSongs = new ArrayList<>();
-        //Search in the Liked playlist
-        for (Song song : likedSongs) {
-                if (song.getTitle().equalsIgnoreCase(title)) {
-                    foundSongs.add(song);
-                }
-            }
         
-            // Search in genre-specific playlsits 
-            for (Playlist playlist : genrePlaylists){
-                for (Song song : playlist.getSongs()){
-                    if (song.getTitle().equalsIgnoreCase(title)){
-                        foundSongs.add(song);
-                    }
-                }
-            }
-            return foundSongs;
+    //add songs to Pop playlist    
+    public boolean addSongToPop() {
+        if (!likedSongs.isEmpty()) {
+            Song song = likedSongs.pop();
+            popSongs.add(song);
+            return true;
+        }
+        return false;
     }
     
-
+    //add songs to rap playlist
+    public boolean addSongToRap() {
+        if (!likedSongs.isEmpty()) {
+            Song song = likedSongs.pop();
+            rapSongs.add(song);
+            return true;
+        }
+        return false;
+    }
+    
+    public List<Song> getPopSongs(){
+        return popSongs;
+    }
+    
+    public List<Song> getRapSongs(){
+        return rapSongs;
+    }
     // Additional methods for managing playlists... Will add soon, 
     // Include in the future: 
     // 1. Search for songs. Delete songs. List songs and playlists. --- DONE
@@ -84,6 +91,8 @@ public class MusicCollection {
     // 3. Implement to GUI
     
     //1 Search function to look for songs
+
+
 
     
 
