@@ -84,14 +84,26 @@ public class MusicCollection {
     public List<Song> getRapSongs(){
         return rapSongs;
     }
-    // Additional methods for managing playlists... Will add soon, 
-    // Include in the future: 
-    // 1. Search for songs. Delete songs. List songs and playlists. --- DONE
-    // 2. Repeat functinality for songs. repeat individual song or entire playlist?
-    // 3. Implement to GUI
-    
-    //1 Search function to look for songs
 
+    //Method to remove most recent song from Pop playlist and puts it back into "liked" list
+    public boolean removeFromPopAndLike() {
+        if (!popSongs.isEmpty()) {
+            Song song = popSongs.remove(popSongs.size() - 1); // Remove the last song
+            likedSongs.push(song); // Add it back to the "Liked" list
+            return true;
+        }
+        return false;
+    }
+    
+    //Method to remove most recent song from rap playlist and puts it bac into "liked" list.
+    public boolean removeFromRapAndLike() {
+        if (!rapSongs.isEmpty()) {
+            Song song = rapSongs.remove(rapSongs.size() - 1); // Remove the last song
+            likedSongs.push(song); // Add it back to the "Liked" list
+            return true;
+        }
+        return false;
+    }
 
 
     

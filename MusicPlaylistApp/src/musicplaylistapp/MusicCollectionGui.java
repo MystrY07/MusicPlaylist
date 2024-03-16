@@ -218,6 +218,11 @@ public class MusicCollectionGui extends javax.swing.JFrame {
 
         removeFromRapButton.setBackground(new java.awt.Color(153, 0, 0));
         removeFromRapButton.setText("Remove from Rap Playlist");
+        removeFromRapButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeFromRapButtonActionPerformed(evt);
+            }
+        });
 
         showRapPlaylistButton.setBackground(new java.awt.Color(153, 0, 0));
         showRapPlaylistButton.setText("Show Rap Playlist");
@@ -321,6 +326,12 @@ public class MusicCollectionGui extends javax.swing.JFrame {
 
     private void removeFromPopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromPopButtonActionPerformed
         // TODO add your handling code here:
+        if (musicCollection.removeFromPopAndLike()) {
+            updateDisplay(musicCollection.getPopSongs()); // Refresh the display area with the remaining Pop songs
+            // also refresh the display of liked songs if that's currently being viewed
+        } else {
+            JOptionPane.showMessageDialog(this, "No songs in Pop playlist to move", "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_removeFromPopButtonActionPerformed
 
     private void showLikedSongsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showLikedSongsButtonActionPerformed
@@ -362,6 +373,16 @@ public class MusicCollectionGui extends javax.swing.JFrame {
         // TODO add your handling code here
         updateDisplay(musicCollection.getRapSongs());
     }//GEN-LAST:event_showRapPlaylistButtonActionPerformed
+
+    private void removeFromRapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromRapButtonActionPerformed
+        // TODO add your handling code here:
+        if (musicCollection.removeFromRapAndLike()) {
+            updateDisplay(musicCollection.getRapSongs()); // Refresh the display area with the remaining Rap songs
+            // also refresh the display of liked songs if that's currently being viewed
+        } else {
+            JOptionPane.showMessageDialog(this, "No songs in Rap playlist to move", "Info", JOptionPane.INFORMATION_MESSAGE);
+        }           
+    }//GEN-LAST:event_removeFromRapButtonActionPerformed
 
     /**
      * @param args the command line arguments
