@@ -50,20 +50,7 @@ public class MusicCollection {
             return true; // Song was added successfully
         }
         return false; // Song was not added because it's a duplicate // Stack operation, adding song to the "liked" playlist
-    }
-
-    private Playlist findOrCreatePlaylist(String genre) {
-        for (Playlist playlist : genrePlaylists) {
-            if (playlist.getName().equalsIgnoreCase(genre)) {
-                return playlist;
-            }
-        }
-        Playlist newPlaylist = new Playlist(genre);
-        genrePlaylists.add(newPlaylist);
-        return newPlaylist;
-    }
-    
-        
+    }        
     //add songs to Pop playlist    
     public boolean addSongToPop() {
         if (!likedSongs.isEmpty()) {
@@ -134,7 +121,16 @@ public class MusicCollection {
         return new ArrayList<>(likedOrder); // Return the liked songs in the order they were liked
     }
 
-
+    public List<Song> searchSongsByTitle(String title) {
+        List<Song> foundSongs = new ArrayList<>();
+        String lowerCaseTitle = title.toLowerCase();
+        for (Song song : allSongs) {
+            if (song.getTitle().toLowerCase().contains(lowerCaseTitle)) {
+                foundSongs.add(song);
+            }
+        }
+        return foundSongs;
+    }
     
 
 }

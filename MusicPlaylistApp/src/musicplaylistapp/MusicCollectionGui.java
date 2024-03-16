@@ -276,10 +276,11 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(playlistManagementPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(showPopPlaylistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addToPopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeFromPopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(showPopPlaylistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(removeFromPopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(showRapPlaylistButton, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
@@ -332,7 +333,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
         // Method to add a song with the input title to the music colleciton.
         
         String title = songTitleTextField.getText().trim();
-        String genre = "Default Genre"; // Or get this from another text field
+        String genre = "Default genre"; // Or get this from another text field
         
         if (!title.isEmpty()) {
             Song newSong = new Song(title, genre);
@@ -348,6 +349,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
 
     private void likeSongButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_likeSongButtonActionPerformed
         // TODO add your handling code here:
+        //method 1 
        /** if (lastAddedSong != null && !musicCollection.addSongToLiked(lastAddedSong)) {
             // Show a message dialog or another form of feedback
             JOptionPane.showMessageDialog(this, "This song is already in the Liked list.", "Duplicate Song", JOptionPane.WARNING_MESSAGE);
@@ -356,6 +358,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
         UpdateSongCounter(); // Update the song counters
         **/
        /** 
+        * method 2
        Song songToLike = musicCollection.peekLastAddedSong(); // Use the adjusted method
             if (songToLike != null) {
                 boolean added = musicCollection.addSongToLiked(songToLike);
@@ -395,7 +398,13 @@ public class MusicCollectionGui extends javax.swing.JFrame {
 
     private void searchSongButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchSongButtonActionPerformed
         // TODO add your handling code here:
-
+        String searchQuery = songTitleTextField.getText().trim();
+        if (!searchQuery.isEmpty()) {
+            List<Song> searchResults = musicCollection.searchSongsByTitle(searchQuery);
+            updateDisplay(searchResults); // Show the search results in the displayArea
+        } else {
+            updateDisplay(musicCollection.getAllSongs()); // If search query is empty, display all songs
+        }
     }//GEN-LAST:event_searchSongButtonActionPerformed
 
     private void addToPopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToPopButtonActionPerformed
