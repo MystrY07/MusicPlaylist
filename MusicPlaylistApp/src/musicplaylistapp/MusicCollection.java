@@ -20,6 +20,7 @@ public class MusicCollection {
     private List<Playlist> genrePlaylists; // List of all playlists, including genre playlists
     private List<Song> popSongs;
     private List<Song> rapSongs;
+    private Deque<Song> likedOrder = new ArrayDeque<>(); 
 
     public MusicCollection() {
         this.likedSongs = new ArrayDeque<>();
@@ -27,6 +28,7 @@ public class MusicCollection {
         this.allSongs = new ArrayList<>();
         this.popSongs = new ArrayList<>();
         this.rapSongs = new ArrayList<>();
+        this.likedOrder = new ArrayDeque<>();
     }
 
     public List<Song> getLikedSongs() {
@@ -41,8 +43,13 @@ public class MusicCollection {
         return allSongs;
     }
 
-    public void addSongToLiked(Song song) {
-        likedSongs.add(song); // Stack operation, adding song to the "liked" playlist
+    //implemented checker for duplicates before being added to "liked" list
+    public boolean addSongToLiked(Song song) {
+        if (!likedSongs.contains(song)) {
+            likedSongs.add(song);
+            return true; // Song was added successfully
+        }
+        return false; // Song was not added because it's a duplicate // Stack operation, adding song to the "liked" playlist
     }
 
     private Playlist findOrCreatePlaylist(String genre) {
@@ -105,6 +112,27 @@ public class MusicCollection {
         return false;
     }
     
+    public Song peekLastAddedSong() {
+        if (!allSongs.isEmpty()) {
+            return allSongs.get(allSongs.size() - 1); // Get the last song in the list
+        }
+        return null; // Return null if the list is empty
+    }
+    
+    public boolean likeNextSong() {
+        for (Song song : allSongs) {
+            if (!likedSongs.contains(song)) {
+                likedSongs.add(song); // Mark as liked
+                likedOrder.offer(song); // Add to liked order
+                return true; // Liked a new song
+            }
+        }
+        return false; // No new song to like
+    }
+    
+    public List<Song> getLikedSongsInOrder() {
+        return new ArrayList<>(likedOrder); // Return the liked songs in the order they were liked
+    }
 
 
     

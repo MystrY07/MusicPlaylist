@@ -348,13 +348,33 @@ public class MusicCollectionGui extends javax.swing.JFrame {
 
     private void likeSongButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_likeSongButtonActionPerformed
         // TODO add your handling code here:
-        if (lastAddedSong != null) {
-            musicCollection.addSongToLiked(lastAddedSong); // Add the lastAddedSong to "Liked" playlist
-            updateDisplay(musicCollection.getLikedSongs()); // Refresh the display to show liked songs
+       /** if (lastAddedSong != null && !musicCollection.addSongToLiked(lastAddedSong)) {
+            // Show a message dialog or another form of feedback
+            JOptionPane.showMessageDialog(this, "This song is already in the Liked list.", "Duplicate Song", JOptionPane.WARNING_MESSAGE);
         }
-        
-        UpdateSongCounter();
-        
+        updateDisplay(musicCollection.getLikedSongs()); // Optionally update display only if adding was successful
+        UpdateSongCounter(); // Update the song counters
+        **/
+       /** 
+       Song songToLike = musicCollection.peekLastAddedSong(); // Use the adjusted method
+            if (songToLike != null) {
+                boolean added = musicCollection.addSongToLiked(songToLike);
+                if (added) {
+                    updateDisplay(musicCollection.getLikedSongs()); // Refresh the liked songs display
+                    UpdateSongCounter(); // Update the song counter display
+                }else {
+                    JOptionPane.showMessageDialog(this, "This song is already in the Liked list. Duplicate song", "Duplicate Song", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No songs available to like.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+        **/
+           if (musicCollection.likeNextSong()) {
+        updateDisplay(musicCollection.getLikedSongsInOrder()); // Update the display with the new order
+        UpdateSongCounter(); // Optionally, update the song counter
+    } else {
+        JOptionPane.showMessageDialog(this, "All added songs are already in the Liked list.", "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
     }//GEN-LAST:event_likeSongButtonActionPerformed
 
     private void removeFromPopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromPopButtonActionPerformed
