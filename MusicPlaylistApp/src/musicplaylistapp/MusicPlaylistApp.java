@@ -14,7 +14,16 @@ public class MusicPlaylistApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // TODO code application logic 
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                MusicCollectionGui gui = new MusicCollectionGui(); // Initialize your main JFrame
+                gui.setVisible(true); // Make the GUI visible
+            }
+        });
+        
     }
     
 }
+
+

@@ -64,6 +64,8 @@ public class MusicCollection {
                     foundSongs.add(song);
                 }
             }
+        
+            // Search in genre-specific playlsits 
             for (Playlist playlist : genrePlaylists){
                 for (Song song : playlist.getSongs()){
                     if (song.getTitle().equalsIgnoreCase(title)){
@@ -77,7 +79,7 @@ public class MusicCollection {
 
     // Additional methods for managing playlists... Will add soon, 
     // Include in the future: 
-    // 1. Search for songs. Delete songs. List songs and playlists. 
+    // 1. Search for songs. Delete songs. List songs and playlists. --- DONE
     // 2. Repeat functinality for songs. repeat individual song or entire playlist?
     // 3. Implement to GUI
     
