@@ -42,6 +42,17 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             displayArea.append(song.getTitle() + " - " + song.getGenre() + "\n");
         }
 }
+    
+    private void UpdateSongCounter(){
+        int totalSongs = musicCollection.getAllSongs().size();
+        int likedSongsCount = musicCollection.getLikedSongs().size();
+        int popSongsCount = musicCollection.getPopSongs().size();
+        int rapSongsCount = musicCollection.getRapSongs().size();
+        
+        String counterText = String.format("Total: %d | Liked: %d | Pop: %d | Rap: %d",
+                                       totalSongs, likedSongsCount, popSongsCount, rapSongsCount);
+        songCounterLabel.setText(counterText);
+    }
 
 
 
@@ -65,6 +76,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
         displayScrollPane = new javax.swing.JScrollPane();
         displayArea = new javax.swing.JTextArea();
         songCounterLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         playlistManagementPanel = new javax.swing.JPanel();
         addToPopButton = new javax.swing.JButton();
         removeFromPopButton = new javax.swing.JButton();
@@ -72,6 +84,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
         addToRapButton = new javax.swing.JButton();
         removeFromRapButton = new javax.swing.JButton();
         showRapPlaylistButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,7 +143,7 @@ public class MusicCollectionGui extends javax.swing.JFrame {
                 .addGroup(songManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(addSongButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(searchSongButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         songManagementPanelLayout.setVerticalGroup(
             songManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,7 +170,9 @@ public class MusicCollectionGui extends javax.swing.JFrame {
 
         songCounterLabel.setBackground(new java.awt.Color(204, 153, 0));
         songCounterLabel.setForeground(new java.awt.Color(0, 0, 0));
-        songCounterLabel.setText("Number of Songs: ");
+
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Number of Songs:");
 
         javax.swing.GroupLayout displayPanelLayout = new javax.swing.GroupLayout(displayPanel);
         displayPanel.setLayout(displayPanelLayout);
@@ -165,21 +180,27 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(displayPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(displayScrollPane)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(songCounterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(displayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(songCounterLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
         displayPanelLayout.setVerticalGroup(
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(displayPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(displayScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(displayPanelLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(songCounterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(songCounterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(displayPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(displayPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(displayScrollPane))
+                .addContainerGap())
         );
 
         playlistManagementPanel.setBackground(new java.awt.Color(153, 153, 153));
@@ -241,11 +262,11 @@ public class MusicCollectionGui extends javax.swing.JFrame {
                 .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(addToRapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .addComponent(addToPopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
-                .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(removeFromPopButton, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .addComponent(removeFromRapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(59, 59, 59)
+                .addGap(147, 147, 147)
+                .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(removeFromRapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeFromPopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(showPopPlaylistButton, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .addComponent(showRapPlaylistButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -256,16 +277,19 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             .addGroup(playlistManagementPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(removeFromPopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showPopPlaylistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addToPopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addToPopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeFromPopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(playlistManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(removeFromRapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
-                    .addComponent(showRapPlaylistButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showRapPlaylistButton, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(removeFromRapButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addToRapButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel2.setText("AMAZING MUSIC MANAGER");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,16 +299,20 @@ public class MusicCollectionGui extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(playlistManagementPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(songManagementPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(songManagementPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(songManagementPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(songManagementPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -314,14 +342,19 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             updateDisplayAllSongs(); // Call a method to update the display with all songs
         }
         updateDisplayAllSongs();
+        
+        UpdateSongCounter();
     }//GEN-LAST:event_addSongButtonActionPerformed
 
     private void likeSongButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_likeSongButtonActionPerformed
         // TODO add your handling code here:
         if (lastAddedSong != null) {
-        musicCollection.addSongToLiked(lastAddedSong); // Add the lastAddedSong to "Liked" playlist
-        updateDisplay(musicCollection.getLikedSongs()); // Refresh the display to show liked songs
-    }
+            musicCollection.addSongToLiked(lastAddedSong); // Add the lastAddedSong to "Liked" playlist
+            updateDisplay(musicCollection.getLikedSongs()); // Refresh the display to show liked songs
+        }
+        
+        UpdateSongCounter();
+        
     }//GEN-LAST:event_likeSongButtonActionPerformed
 
     private void removeFromPopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromPopButtonActionPerformed
@@ -352,6 +385,8 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             // Show a message if there are no liked songs to add
             JOptionPane.showMessageDialog(this, "No more liked songs to add to Pop playlist", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
+        
+        UpdateSongCounter();
     }//GEN-LAST:event_addToPopButtonActionPerformed
 
     private void addToRapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToRapButtonActionPerformed
@@ -362,6 +397,8 @@ public class MusicCollectionGui extends javax.swing.JFrame {
             // Show a message if there are no liked songs to add
             JOptionPane.showMessageDialog(this, "No more liked songs to add to Rap playlist", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
+        
+        UpdateSongCounter();
     }//GEN-LAST:event_addToRapButtonActionPerformed
 
     private void showPopPlaylistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPopPlaylistButtonActionPerformed
@@ -426,6 +463,8 @@ public class MusicCollectionGui extends javax.swing.JFrame {
     private javax.swing.JTextArea displayArea;
     private javax.swing.JPanel displayPanel;
     private javax.swing.JScrollPane displayScrollPane;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton likeSongButton;
     private javax.swing.JPanel playlistManagementPanel;
     private javax.swing.JButton removeFromPopButton;
