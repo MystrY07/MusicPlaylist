@@ -12,12 +12,10 @@ import java.util.Stack;
 public class Playlist {
     private String name;
     private Stack<Song> songs;
-    private boolean isRepeat;
 
     public Playlist(String name) {
         this.name = name;
         this.songs = new Stack<>();
-        this.isRepeat = false;
     }
 
     public void addSong(Song song) {
@@ -39,10 +37,6 @@ public class Playlist {
         }
     }
 
-    public void setRepeat(boolean repeat) {
-        isRepeat = repeat;
-    }
-
     public int getSongCount() {
         return songs.size();
     }
@@ -51,7 +45,4 @@ public class Playlist {
         return name;
     }
 
-    Iterable<Song> getSongs() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
