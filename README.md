@@ -1,4 +1,4 @@
-# Music Collection Application
+# Music Collection Application Submission for solo project - ref no: x22487824
 
 ## Overview
 This Music Collection Application allows users to manage their music library efficiently. Users can add songs to a general collection, categorize them into "Pop" or "Rap" playlists, "like" their favorite tracks, and search through their collection with ease.
